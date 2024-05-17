@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        strong {
+            font-weight: bold; /* Make the text bold */
+            margin-top: 10px; /* Add margin to the top */
+            display: block; /* Make the <strong> tag a block element */
+            font-size: 16px; /* Adjust font size as needed */
+            color: #333; /* Set text color */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4 {
+            margin-top: 0;
+        }
+
+        .recommendation {
+            width: calc(50% - 20px); /* 50% width with margin included */
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* Include padding and border in the width */
+            float: left;
+        }
+
+        .metadata p {
+            font-size: 12px;
+            margin: 0; /* Remove default margins */
+        }
+
+        .url, .author, .published-at {
+            font-size: 12px;
+        }
+
+        .category-container {
+            clear: both;
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #return-to-home {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Results</h1>
+    <div>
+        <h2>User-Selected Stories</h2>
+        <ul>
+            {% for result in results %}
+                <li>
+                    <h3>{{ result.title }}</h3>
+                    <a href="{{ result.url }}">{{ result.url }}</a><br>
+                    <strong>Category:</strong> {{ result.category }}<br>
+                    <strong>Summary:</strong> {{ result.summary }}<br>
+                    <strong>Keywords:</strong> {{ result.keywords }}<br><br>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h2>Recommended News Stories</h2>
+        {% for category, stories in recommended_stories.items() %}
+            <div class="category-container">
+                <h3 class="category-title">{{ category }}</h3>
+                {% for story in stories %}
+                    <div class="recommendation">
+                        <h4>{{ story.title }}</h4>
+                        <p>{{ story.description }}</p>
+                        <div class="metadata">
+                            <p class="author">Author: {{ story.author }}</p>
+                            <p class="published-at">Published at: {{ story.publishedAt }}</p>
+                        </div>
+                        <a class="url" href="{{ story.url }}">{{ story.url }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <a id="return-to-home" href="/">Return to Home</a>
+</body>
+</html>
